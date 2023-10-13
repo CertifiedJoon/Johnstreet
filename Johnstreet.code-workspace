@@ -1,0 +1,12 @@
+{
+  "folders": [
+	{
+		"name": "Johnstreet",
+		"path": "."
+	},
+	{
+		"path": "../CryptoTrader/Strategy"
+	}
+],
+  "settings": {}
+}
