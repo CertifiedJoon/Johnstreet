@@ -91,4 +91,4 @@ class TrendFollower:
         self._exchange.send_add_message(
             order_id=b_oid, symbol=sym, dir=Dir.BUY, price=b_prc, size=10
         )
-        print("BUY AT", s_oid, sym, s_prc, 10)
+        print("BUY AT", b_oid, sym, b_prc, 10)
