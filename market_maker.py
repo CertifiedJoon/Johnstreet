@@ -22,7 +22,7 @@ class MarketMaker:
         sym = msg["symbol"]
         prc = msg["price"]
 
-        buy_price = prc - self._delta
+        buy_price = prc - self._delta - 10
         sell_price = buy_price + 1
 
         buy_id = self._oid[sym + "B"]
