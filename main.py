@@ -2,7 +2,7 @@ from market_maker import MarketMaker
 from jane_street import ExchangeConnection as Exchange
 from jane_street import parse_arguments
 from supporter import Supporter
-from arbitrage import Arbitrage
+from buyall import Arbitrage
 import multiprocessing
 from bond_buyer import BondBuyer
 from min_buyer import MinBuyer
@@ -96,7 +96,8 @@ def main():
             multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
         )
 
-    ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
+    ml_loop = multiprocessing.Process(
+        target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
     bond_loop = multiprocessing.Process(
         target=bond_buyer_loop,
@@ -106,7 +107,8 @@ def main():
         ),
     )
     min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
-    tf_loop = multiprocessing.Process(target=trend_follower_loop, args=(exchange,))
+    tf_loop = multiprocessing.Process(
+        target=trend_follower_loop, args=(exchange,))
 
     # starting process 1
     for i in range(mm_thread_cnt):
