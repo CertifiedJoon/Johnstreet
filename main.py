@@ -112,7 +112,7 @@ def main():
     # ml_loop = multiprocessing.Process(
     #     target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
-    sellall_loop = multiprocessing.Process(
+    sell_loop = multiprocessing.Process(
         traget=sellall_loop, args=(exchange,))
     # bond_loop = multiprocessing.Process(
     #     target=bond_buyer_loop,
