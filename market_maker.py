@@ -7,7 +7,7 @@ class MarketMaker:
     def __init__(self, exchange):
         self._exchange = exchange
         self._base_id = 1_000_000
-        self._delta = 1
+        self._delta = 2
         self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
         self._oid = {}
         for asset in self._assets:

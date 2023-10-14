@@ -1,3 +1,7 @@
+import csv
+import datetime
+
+
 class Supporter:
     def __init__(self, exchange, history_file=None):
         self._exchange = exchange
@@ -7,16 +11,20 @@ class Supporter:
         self._history_file = history_file
 
     def listen(self, message):
-        """Fetch Ticker from external API"""
-        # info = self.BINANCE.fetch_ticker(self._ticker)
-        pass
+        """
+        read message and record filled trade
+        """
 
-        # today = datetime.datetime.utcnow().strftime('%Y-%m-%d')
-        # new_row = [today, info['open'], info['high'], info['low'], info['close'], info['quoteVolume']]
+        if message["type"] != "book":
+            return
 
-        # with open(self._history_file,'a') as fd:
-        #     writer_object = csv.writer(fd)
-        #     writer_object.writerow(new_row)
-        #     fd.close()
+        new_row = [
+            datetime.datetime.now(),
+            message["buy"],
+            message["sell"],
+        ]
 
-        # self._df.loc[today] = pd.Series(new_row)
+        with open(self._history_file, "a") as fd:
+            writer_object = csv.writer(fd)
+            writer_object.writerow(new_row)
+            fd.close()
