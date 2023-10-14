@@ -1,9 +1,6 @@
 from enum import Enum
-
-
-class Dir(str, Enum):
-    BUY = "BUY"
-    SELL = "SELL"
+from jane_street import ExchangeConnection as Exchange
+from jane_street import Dir
 
 
 class MarketMaker:
@@ -14,7 +11,7 @@ class MarketMaker:
         # order price delta
         self._delta = 1
         # Specify Asset set
-        self._assets = []
+        self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
 
         # one unique order id for each asset and side, e.g. 'WFC' and 'B'
         self._oid = {}

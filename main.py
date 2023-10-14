@@ -51,11 +51,10 @@ def main():
     print("Round Finished!")
 
 
-def parse_arguments():
-    pass
-
-
 if __name__ == "__main__":
     # Check that [team_name] has been updated.
-    assert team_name != "JOHNSTREET"
+    assert (
+        team_name != "REPLAC" + "EME"
+    ), "Please put your team name in the variable [team_name]."
+
     main()
