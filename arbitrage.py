@@ -9,7 +9,6 @@ class Arbitrage:
             self._valPrices[asset] = 0
 
     def listen(self, msg):
-        print("MSG", msg)
         if msg["type"] != "trade" or msg["symbol"] not in self._assets:
             return
 
