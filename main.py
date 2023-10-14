@@ -50,22 +50,28 @@ def main():
 
     exchange = Exchange(args=args)
 
-    mm_1_loop = multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
-    mm_2_loop = multiprocessing.Process(target=market_maker_loop, args=(exchange, 2))
+    mm_thread_cnt = 4
+    mm_loops = []
+
+    for i in range(1, mm_thread_cnt):
+        mm_loops.append(
+            multiprocessing.Process(target=market_maker_loop, args=(exchange, i))
+        )
+
     ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
 
     # starting process 1
-    mm_1_loop.start()
-    mm_2_loop.start()
+    for i in range(1, mm_thread_cnt):
+        mm_loops[i].start()
     ml_loop.start()
-    arb_loop.start()
+    # arb_loop.start()
 
     # wait until process 1 is finished
-    mm_1_loop.join()
-    mm_2_loop.join()
+    for i in range(1, mm_thread_cnt):
+        mm_loops[i].join()
     ml_loop.join()
-    arb_loop.join()
+    # arb_loop.join()
 
     # both processes finished
     print("Round Finished!")
