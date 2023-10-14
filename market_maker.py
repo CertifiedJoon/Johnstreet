@@ -37,7 +37,7 @@ class MarketMaker:
         s_oid = self._oid[sym + "S"]
 
         # cancel existing orders
-        print("liquity providing at " + str(prc))
+        print(f"liquity providing at {sym} {prc}")
         self._exchange.send_cancel_message(order_id=b_oid)
         self._exchange.send_cancel_message(order_id=s_oid)
 
