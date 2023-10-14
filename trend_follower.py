@@ -35,9 +35,10 @@ class TrendFollower:
             self._BASE_OID += 2
 
     # return true or false
-    def price_trend_up(self, sym, prc):
-        popped = self._mv_orders.popleft()
-        self._mv_orders.append(prc)
+    def price_trend_up(self, sym):
+
+        # popped = self._mv_orders.popleft()
+        # self._mv_orders.append(prc)
 
         # if len(self._mv_avg) != int(self._mv_window * 0.1):
         #     self._mv_avg.append(
@@ -63,13 +64,14 @@ class TrendFollower:
         # return all(
         #     self._mv_avg[i] < self._mv_avg[i + 1] for i in range(len(self._mv_avg) - 1)
         # )
-
+        
         if self._asset_mvavg[sym][0] < self._asset_mvavg[sym][1]:
             return True
         else:
             return False
+        
 
-    # listening
+    # listening 
     def listen(self, msg):
         if msg["type"] != "trade":
             return
@@ -79,9 +81,9 @@ class TrendFollower:
 
         sym = msg["symbol"]
         prc = msg["price"]
-
+        
         self._asset_dataset[sym].append(prc)
-
+        
         # check if the datatset it has is >= moving window
         if len(self._asset_dataset[sym]) < self._mv_window:
             return
@@ -89,16 +91,14 @@ class TrendFollower:
             # calculate the moving average and store in it dictionary
             if len(self._asset_dataset[sym]) > 100:
                 self._asset_dataset[sym].popleft()
-            self._asset_mvavg[sym].append(
-                sum(self._asset_dataset[sym]) / self._mv_window
-            )
+            self._asset_mvavg[sym].append(sum(self._asset_dataset[sym]) / self._mv_window)
 
         # check if there are 10 moving average datasets
         if len(self._asset_mvavg[sym]) < 2:
             return
         else:
-            self._asset_mvavg.popleft()
-
+            self._asset_mvavg[sym].popleft()
+        
         # check if price trend is going down
         if not self.price_trend_up(sym, prc):
             s_prc = prc
@@ -109,7 +109,6 @@ class TrendFollower:
             self._exchange.send_add_message(
                 order_id=s_oid, symbol=sym, dir=Dir.SELL, price=s_prc, size=10
             )
-            print(order_id=s_oid, symbol=sym, dir=Dir.SELL, price=s_prc, size=10)
             return
 
         b_prc = prc
@@ -120,4 +119,4 @@ class TrendFollower:
         self._exchange.send_add_message(
             order_id=b_oid, symbol=sym, dir=Dir.BUY, price=b_prc, size=10
         )
-        print(order_id=b_oid, symbol=sym, dir=Dir.BUY, price=b_prc, size=10)
+        print()
