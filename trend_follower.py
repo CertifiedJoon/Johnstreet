@@ -15,13 +15,17 @@ class TrendFollower:
         # order price delta
         self._delta = 1
         # Specify Asset set
-        self._assets = []
+        self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
         # mv window
         self._mv_window = mv_window
-        # mv orders
-        self._mv_orders = deque()
-        # mv avg
-        self._mv_avg = deque()
+        # data for each asset
+        self._asset_dataset = {}
+        for i in self._assets:
+            self._asset_dataset[i] = deque()
+        # moving average of each asset
+        self._asset_mvavg = {}
+        for i in self._assets:
+            self._asset_mvavg[i] = deque()
 
         # one unique order id for each asset and side, e.g. 'WFC' and 'B'
         self._oid = {}
@@ -30,39 +34,44 @@ class TrendFollower:
             self._oid[asset + "S"] = self._BASE_OID + 2
             self._BASE_OID += 2
 
-    def price_trend_up(self, prc):
-        if len(self._mv_orders) != self._mv_window:
-            self._mv_orders.append(prc)
-            return
+    # return true or false
+    def price_trend_up(self, sym, prc):
 
         popped = self._mv_orders.popleft()
         self._mv_orders.append(prc)
 
-        if len(self._mv_avg) != int(self._mv_window * 0.1):
-            self._mv_avg.append(
-                (
-                    (0 if not self._mv_avg else self._mv_avg[-1]) * self._mv_window
-                    - popped
-                    + prc
-                )
-                / self._mv_window
-            )
-            return
+        # if len(self._mv_avg) != int(self._mv_window * 0.1):
+        #     self._mv_avg.append(
+        #         (
+        #             (0 if not self._mv_avg else self._mv_avg[-1]) * self._mv_window
+        #             - popped
+        #             + prc
+        #         )
+        #         / self._mv_window
+        #     )
+        #     return
 
-        popped = self._mv_avg.popleft()
-        self._mv_avg.append(
-            (
-                (0 if not self._mv_avg else self._mv_avg[-1]) * self._mv_window
-                - popped
-                + prc
-            )
-            / self._mv_window
-        )
+        # popped = self._mv_avg.popleft()
+        # self._mv_avg.append(
+        #     (
+        #         (0 if not self._mv_avg else self._mv_avg[-1]) * self._mv_window
+        #         - popped
+        #         + prc
+        #     )
+        #     / self._mv_window
+        # )
 
-        return all(
-            self._mv_avg[i] < self._mv_avg[i + 1] for i in range(len(self._mv_avg) - 1)
-        )
+        # return all(
+        #     self._mv_avg[i] < self._mv_avg[i + 1] for i in range(len(self._mv_avg) - 1)
+        # )
+        
+        if self._asset_mvavg[sym][0] < self._asset_mvavg[sym][1]:
+            return True
+        else:
+            return False
+        
 
+    # listening 
     def listen(self, msg):
         if msg["type"] != "trade":
             return
@@ -72,8 +81,25 @@ class TrendFollower:
 
         sym = msg["symbol"]
         prc = msg["price"]
+        
+        # check if the datatset it has is >= moving window
+        if len(self._asset_dataset[sym]) < self._mv_window:
+            self._asset_dataset[sym].append(prc)
+            return
+        else:
+            # calculate the moving average and store in it dictionary
+            self._asset_dataset[sym].popleft()
+            self._asset_dataset[sym].append(prc)
+            self._asset_mvavg[sym].append(sum(self._asset_dataset[sym]) / self._mv_window)
 
-        if not self.price_trend_up(prc):
+        # check if there are 10 moving average datasets
+        if len(self._asset_mvavg[sym]) < 2:
+            return
+        else:
+            self._asset_mvavg.popleft()
+        
+        # check if price trend is going down
+        if not self.price_trend_up(sym, prc):
             s_prc = prc
 
             s_oid = self._oid[sym + "S"]
