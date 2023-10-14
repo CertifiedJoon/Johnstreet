@@ -21,12 +21,6 @@ class MarketMaker:
             self._BASE_OID += 2
 
     def listen(self, msg):
-        """
-        If a newly confirmed trade is broadcasted, cancel all pending
-        orders for said asset and place two new ones, a buy order at
-        txn_price-1 and a sell order at txn_price+1.
-        """
-
         if msg["type"] != "trade":
             return
 
@@ -43,6 +37,7 @@ class MarketMaker:
         s_oid = self._oid[sym + "S"]
 
         # cancel existing orders
+        print("liquity providing at " + str(prc))
         self._exchange.send_cancel_message(order_id=b_oid)
         self._exchange.send_cancel_message(order_id=s_oid)
 
