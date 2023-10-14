@@ -111,20 +111,20 @@ def main():
     # starting process 1
     for i in range(mm_thread_cnt):
         mm_loops[i].start()
-    ml_loop.start()
-    arb_loop.start()
-    bond_loop.start()
-    min_loop.start()
-    tf_loop.start()
+    # ml_loop.start()
+    # arb_loop.start()
+    # bond_loop.start()
+    # min_loop.start()
+    # tf_loop.start()
 
     # wait until process 1 is finished
     for i in range(mm_thread_cnt):
         mm_loops[i].join()
-    ml_loop.join()
-    arb_loop.join()
-    bond_loop.join()
-    min_loop.join()
-    tf_loop.join()
+    # ml_loop.join()
+    # arb_loop.join()
+    # bond_loop.join()
+    # min_loop.join()
+    # tf_loop.join()
     # both processes finished
     print("Round Finished!")
 
