@@ -6,17 +6,13 @@ class Supporter:
 
     def __init__(self, exchange, history_file=None):
         self._exchange = exchange
-        # base id
         # Specify Asset set
         self._assets = []
-
-        # one unique order id for each asset and side, e.g. 'WFC' and 'B'
-        self._oid = {}
         # Should Add file location check
         self._history_file = history_file
         self._df = pd.read_csv(history_file).set_index("Date")
 
-    def update_ohlcv(self):
+    def listen(self):
         """Fetch Ticker from external API"""
         # info = self.BINANCE.fetch_ticker(self._ticker)
         raise NotImplementedError("Sorry, not implemented yet.")
