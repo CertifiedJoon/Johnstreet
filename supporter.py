@@ -6,7 +6,7 @@ class Supporter:
         # Should Add file location check
         self._history_file = history_file
 
-    def listen(self):
+    def listen(self, message):
         """Fetch Ticker from external API"""
         # info = self.BINANCE.fetch_ticker(self._ticker)
         pass
