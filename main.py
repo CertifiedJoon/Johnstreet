@@ -2,7 +2,8 @@ from market_maker import MarketMaker
 from jane_street import ExchangeConnection as Exchange
 from jane_street import parse_arguments
 from supporter import Supporter
-from buyall import Arbitrage
+from buyall import BuyAll
+from sellall import SellAll
 import multiprocessing
 from bond_buyer import BondBuyer
 from min_buyer import MinBuyer
@@ -37,11 +38,23 @@ def market_logger_loop(exchange: Exchange):
 
 
 def arbitrage_loop(exchange: Exchange):
-    arb = Arbitrage(exchange)
+    arb = BuyAll(exchange)
 
     while True:
         message = exchange.read_message()
         arb.listen(message)
+
+        if message["type"] == "close":
+            print("the round has ended, market maker stop.")
+            break
+
+
+def sellall_loop(exchange: Exchange):
+    sellall = SellAll(exchange)
+
+    while True:
+        message = exchange.read_message()
+        sellall.listen(message)
 
         if message["type"] == "close":
             print("the round has ended, market maker stop.")
@@ -99,6 +112,8 @@ def main():
     # ml_loop = multiprocessing.Process(
     #     target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
+    sellall_loop = multiprocessing.Process(
+        traget=sellall_loop, args=(exchange,))
     # bond_loop = multiprocessing.Process(
     #     target=bond_buyer_loop,
     #     args=(
@@ -115,6 +130,7 @@ def main():
     #     mm_loops[i].start()
     # ml_loop.start()
     arb_loop.start()
+    sellall_loop()
     # bond_loop.start()
     # min_loop.start()
     tf_loop.start()
@@ -124,6 +140,7 @@ def main():
     #     mm_loops[i].join()
     # ml_loop.join()
     arb_loop.join()
+    sellall_loop()
     # bond_loop.join()
     # min_loop.join()
     tf_loop.join()

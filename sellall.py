@@ -2,7 +2,7 @@ import math
 from jane_street import Dir
 
 
-class BuyAll:
+class SellAll:
     def __init__(self, exchange):
         self._exchange = exchange
         self._assets = ["VALE", "VALBZ", "XLF", "GS", "MS", "WFC"]
@@ -33,21 +33,14 @@ class BuyAll:
 
         for asset in self._assets:
             self._exchange.send_add_message(
-                order_id=buy_id,
-                symbol=f"{asset}",
-                dir=Dir.BUY,
-                price=self._valPrices[asset],
-                size=1
-            )
-            self._exchange.send_add_message(
                 order_id=sell_id,
                 symbol=f"{asset}",
                 dir=Dir.SELL,
-                price=self._valPrices[asset] + 10,
+                price=self._valPrices[asset],
                 size=1
             )
 
-        print("BUYED!!!!")
+        print("SELLED!!!!")
         # if self._valPrices["XLF"] - xlfStockPrices > 100:
 
         # print("TOTAL ARBITRAGE EARN:", self._totalEarn)
