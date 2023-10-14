@@ -22,19 +22,13 @@ class MarketMaker:
         sym = msg["symbol"]
         prc = msg["price"]
 
-        buy_price = prc - self._delta - 10
-        sell_price = buy_price + 1
+        sell_price = prc + 1
 
-        buy_id = self._oid[sym + "B"]
         sell_id = self._oid[sym + "S"]
 
         print(f"liquity providing at {sym} {prc}")
-        self._exchange.send_cancel_message(order_id=buy_id)
         self._exchange.send_cancel_message(order_id=sell_id)
 
-        self._exchange.send_add_message(
-            order_id=buy_id, symbol=sym, dir=Dir.BUY, price=buy_price, size=1
-        )
         self._exchange.send_add_message(
             order_id=sell_id, symbol=sym, dir=Dir.SELL, price=sell_price, size=1
         )
