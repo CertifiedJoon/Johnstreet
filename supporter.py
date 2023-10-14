@@ -15,16 +15,12 @@ class Supporter:
         read message and record filled trade
         """
 
-        if message["type"] != "book":
+        if message["type"] != "trade" and message["sym"] not in self._assets:
             return
 
-        new_row = [
-            datetime.datetime.now(),
-            message["buy"],
-            message["sell"],
-        ]
+        new_row = [datetime.datetime.now(), message["price"]]
 
-        with open(self._history_file, "a") as fd:
+        with open(str(message["sym"] + self._history_file), "a") as fd:
             writer_object = csv.writer(fd)
             writer_object.writerow(new_row)
             fd.close()

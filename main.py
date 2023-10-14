@@ -2,6 +2,7 @@ from market_maker import MarketMaker
 from jane_street import ExchangeConnection as Exchange
 from jane_street import parse_arguments
 from supporter import Supporter
+from arbitrage import Arbitrage
 import multiprocessing
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
@@ -32,6 +33,18 @@ def market_logger_loop(exchange: Exchange):
             print("the round has finished. logging stop.")
 
 
+def arbitrage_loop(exchange: Exchange):
+    arb = Arbitrage(exchange)
+
+    while True:
+        message = exchange.read_message()
+        arb.listen(message)
+
+        if message["type"] == "close":
+            print("the round has ended, market maker stop.")
+            break
+
+
 def main():
     args = parse_arguments()
 
@@ -39,14 +52,17 @@ def main():
 
     mm_loop = multiprocessing.Process(target=market_maker_loop, args=(exchange,))
     ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
+    arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
 
     # starting process 1
     mm_loop.start()
     ml_loop.start()
+    arb_loop.start()
 
     # wait until process 1 is finished
     mm_loop.join()
     ml_loop.join()
+    arb_loop.join()
 
     # both processes finished
     print("Round Finished!")
