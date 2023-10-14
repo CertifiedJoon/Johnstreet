@@ -5,6 +5,7 @@ from supporter import Supporter
 from arbitrage import Arbitrage
 import multiprocessing
 from bond_buyer import BondBuyer
+from min_buyer import MinBuyer
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
 team_name = "JohnStreet"
@@ -46,6 +47,18 @@ def arbitrage_loop(exchange: Exchange):
             break
 
 
+def min_buyer_loop(exchange: Exchange):
+    mb = MinBuyer(exchange)
+
+    while True:
+        message = exchange.read_message()
+        mb.listen(message)
+
+        if message["type"] == "close":
+            print("the round has ended, market maker stop.")
+            break
+
+
 def bond_buyer_loop(exchange: Exchange, delta):
     bb = BondBuyer(exchange, delta)
 
@@ -80,6 +93,7 @@ def main():
             1,
         ),
     )
+    min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
 
     # # starting process 1
     # for i in range(1, mm_thread_cnt):
@@ -87,6 +101,7 @@ def main():
     ml_loop.start()
     arb_loop.start()
     bond_loop.start()
+    min_loop.start()
 
     # wait until process 1 is finished
     # for i in range(1, mm_thread_cnt):
@@ -94,6 +109,7 @@ def main():
     ml_loop.join()
     arb_loop.join()
     bond_loop.join()
+    min_loop.join()
 
     # both processes finished
     print("Round Finished!")
