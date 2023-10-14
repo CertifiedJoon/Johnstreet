@@ -88,12 +88,12 @@ def main():
 
     exchange = Exchange(args=args)
 
-    mm_thread_cnt = 5
+    mm_thread_cnt = 15
     mm_loops = []
 
-    for i in range(1, mm_thread_cnt + 1):
+    for i in range(0, mm_thread_cnt):
         mm_loops.append(
-            multiprocessing.Process(target=market_maker_loop, args=(exchange, i))
+            multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
         )
 
     ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
