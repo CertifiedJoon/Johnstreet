@@ -29,9 +29,9 @@ class Arbitrage:
         symbol = msg["symbol"]
         price = msg["price"]
 
-        if self._valPrices["BOND"] != 0 and self._valPrices["GS"] != 0 and self._valPrices["MS"] != 0 and self._valPrices["WFC"] != 0:
-            xlfStockPrices = 3 * self._valPrices["BOND"] + 2 * self._valPrices["GS"] + \
-                3 * self._valPrices["MS"] + 2 * self._valPrices["WFC"]
+        # if self._valPrices["BOND"] != 0 and self._valPrices["GS"] != 0 and self._valPrices["MS"] != 0 and self._valPrices["WFC"] != 0:
+        #     xlfStockPrices = 3 * self._valPrices["BOND"] + 2 * self._valPrices["GS"] + \
+        #         3 * self._valPrices["MS"] + 2 * self._valPrices["WFC"]
 
         buy_id = self._oid[symbol + "B"]
         convert_id = self._oid[symbol + "C"]
