@@ -27,6 +27,8 @@ class BondBuyer:
         buy_id = self._oid[sym + "B"]
         sell_id = self._oid[sym + "S"]
 
+        print(f"bond order at " + buy_price)
+
         self._exchange.send_add_message(
             order_id=buy_id, symbol=sym, dir=Dir.BUY, price=buy_price, size=1
         )
