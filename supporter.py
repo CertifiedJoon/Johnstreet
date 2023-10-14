@@ -14,6 +14,7 @@ class Supporter:
         """
         read message and record filled trade
         """
+
         if message["type"] != "trade" or message["symbol"] not in self._assets:
             return
 
