@@ -36,35 +36,6 @@ class TrendFollower:
 
     # return true or false
     def price_trend_up(self, sym):
-
-        # popped = self._mv_orders.popleft()
-        # self._mv_orders.append(prc)
-
-        # if len(self._mv_avg) != int(self._mv_window * 0.1):
-        #     self._mv_avg.append(
-        #         (
-        #             (0 if not self._mv_avg else self._mv_avg[-1]) * self._mv_window
-        #             - popped
-        #             + prc
-        #         )
-        #         / self._mv_window
-        #     )
-        #     return
-
-        # popped = self._mv_avg.popleft()
-        # self._mv_avg.append(
-        #     (
-        #         (0 if not self._mv_avg else self._mv_avg[-1]) * self._mv_window
-        #         - popped
-        #         + prc
-        #     )
-        #     / self._mv_window
-        # )
-
-        # return all(
-        #     self._mv_avg[i] < self._mv_avg[i + 1] for i in range(len(self._mv_avg) - 1)
-        # )
-        
         if self._asset_mvavg[sym][0] < self._asset_mvavg[sym][1]:
             return True
         else:
@@ -96,7 +67,7 @@ class TrendFollower:
         # check if there are 10 moving average datasets
         if len(self._asset_mvavg[sym]) < 2:
             return
-        else:
+        elif len(self._asset_mvavg[sym]) > 2:
             self._asset_mvavg[sym].popleft()
         
         # check if price trend is going down
