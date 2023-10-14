@@ -29,15 +29,17 @@ class Arbitrage:
         sell_id = self._oid[symbol + "S"]
 
         self._valPrices[symbol] = price
-        self._valPrices["traded"] = symbol
 
-        # if math.abs(self._valPrices["VALE"] - self._valPrices["VALBZ"]) > 10:
-        #     self._exchange.send_add_message(order_id=buy_id, symbol = symbol, dir = Dir.BUY, price = )
+        if self._valPrice["VALE"] - self._valPrices["VALBZ"] > 10:
+            self._exchange.send_add_message(
+                order_id=buy_id, symbol="VALBZ", dir=Dir.BUY, price=self._valPrices["VALBZ"], size=1)
+            self._exchange.send_add_message(
+                order_id=sell_id, symbol="VALE", dir=Dir.SELL, price=self._valPrices["VALE"], size=1)
 
-        # if self._valPrice["VALE"] - self._valPrices["VALBZ"] > 10:
-        #     self._exchange.send_add_message()
-
-        # if self._valPrice["VALBZ"] - self._valPrice["VALE"] > 10:
-        #     self._exchange.send_add_message()
+        if self._valPrice["VALBZ"] - self._valPrice["VALE"] > 10:
+            self._exchange.send_add_message(
+                order_id=buy_id, symbol="VALE", dir=Dir.BUY, price=self._valPrices["VALE"], size=1)
+            self._exchange.send_add_message(
+                order_id=sell_id, symbol="VALBZ", dir=Dir.SELL, price=self._valPrices["VALBZ"], size=1)
 
         print("Val price", self._valPrices)
