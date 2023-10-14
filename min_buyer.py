@@ -7,7 +7,7 @@ class MinBuyer:
     def __init__(self, exchange):
         self._exchange = exchange
         self._base_id = 1_000_000
-        self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
+        self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC"]
         self._min_price = {
             "BOND": 1000000,
             "GS": 1000000,
