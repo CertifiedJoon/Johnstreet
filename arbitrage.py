@@ -43,22 +43,42 @@ class Arbitrage:
 
         if self._valPrices["VALE"] - self._valPrices["VALBZ"] > 10:
             self._exchange.send_add_message(
-                order_id=buy_id, symbol="VALBZ", dir=Dir.BUY, price=self._valPrices["VALBZ"], size=50)
+                order_id=buy_id,
+                symbol="VALBZ",
+                dir=Dir.BUY,
+                price=self._valPrices["VALBZ"],
+                size=20,
+            )
             self._exchange.send_convert_message(
-                order_id=convert_id, symbol="VALBZ", dir=Dir.BUY, size=50)
+                order_id=convert_id, symbol="VALBZ", dir=Dir.BUY, size=20
+            )
             self._exchange.send_add_message(
-                order_id=sell_id, symbol="VALE", dir=Dir.SELL, price=self._valPrices["VALE"], size=50)
-            self._totalEarn += (self._valPrices["VALE"] -
-                                self._valPrices["VALBZ"] - 10)
+                order_id=sell_id,
+                symbol="VALE",
+                dir=Dir.SELL,
+                price=self._valPrices["VALE"],
+                size=20,
+            )
+            self._totalEarn += self._valPrices["VALE"] - self._valPrices["VALBZ"] - 10
 
         if self._valPrices["VALBZ"] - self._valPrices["VALE"] > 10:
             self._exchange.send_add_message(
-                order_id=buy_id, symbol="VALE", dir=Dir.BUY, price=self._valPrices["VALE"], size=50)
+                order_id=buy_id,
+                symbol="VALE",
+                dir=Dir.BUY,
+                price=self._valPrices["VALE"],
+                size=20,
+            )
             self._exchange.send_convert_message(
-                order_id=convert_id, symbol="VALE", dir=Dir.BUY, size=50)
+                order_id=convert_id, symbol="VALE", dir=Dir.BUY, size=20
+            )
             self._exchange.send_add_message(
-                order_id=sell_id, symbol="VALBZ", dir=Dir.SELL, price=self._valPrices["VALBZ"], size=50)
-            self._totalEarn += (self._valPrices["VALBZ"] -
-                                self._valPrices["VALE"] - 10)
+                order_id=sell_id,
+                symbol="VALBZ",
+                dir=Dir.SELL,
+                price=self._valPrices["VALBZ"],
+                size=20,
+            )
+            self._totalEarn += self._valPrices["VALBZ"] - self._valPrices["VALE"] - 10
 
         print("TOTAL ARBITRAGE EARN:", self._totalEarn)
