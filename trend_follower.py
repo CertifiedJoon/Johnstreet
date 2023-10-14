@@ -82,14 +82,15 @@ class TrendFollower:
         sym = msg["symbol"]
         prc = msg["price"]
         
+        self._asset_dataset[sym].append(prc)
+        
         # check if the datatset it has is >= moving window
         if len(self._asset_dataset[sym]) < self._mv_window:
-            self._asset_dataset[sym].append(prc)
             return
         else:
             # calculate the moving average and store in it dictionary
-            self._asset_dataset[sym].popleft()
-            self._asset_dataset[sym].append(prc)
+            if len(self._asset_dataset[sym]) > 100:
+                self._asset_dataset[sym].popleft()
             self._asset_mvavg[sym].append(sum(self._asset_dataset[sym]) / self._mv_window)
 
         # check if there are 10 moving average datasets
