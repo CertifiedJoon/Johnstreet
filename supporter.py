@@ -1,6 +1,3 @@
-import pandas as pd
-
-
 class Supporter:
     __slots__ = "_ticker", "_history", "_df", "_strategy"
 
@@ -10,12 +7,11 @@ class Supporter:
         self._assets = []
         # Should Add file location check
         self._history_file = history_file
-        self._df = pd.read_csv(history_file).set_index("Date")
 
     def listen(self):
         """Fetch Ticker from external API"""
         # info = self.BINANCE.fetch_ticker(self._ticker)
-        raise NotImplementedError("Sorry, not implemented yet.")
+        pass
 
         # today = datetime.datetime.utcnow().strftime('%Y-%m-%d')
         # new_row = [today, info['open'], info['high'], info['low'], info['close'], info['quoteVolume']]
