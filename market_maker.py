@@ -23,7 +23,7 @@ class MarketMaker:
         prc = msg["price"]
 
         buy_price = prc - self._delta
-        sell_price = prc + self._delta
+        sell_price = prc + 1
 
         buy_id = self._oid[sym + "B"]
         sell_id = self._oid[sym + "S"]

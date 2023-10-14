@@ -50,7 +50,7 @@ def main():
 
     exchange = Exchange(args=args)
 
-    mm_thread_cnt = 4
+    mm_thread_cnt = 15
     mm_loops = []
 
     for i in range(1, mm_thread_cnt):
