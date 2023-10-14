@@ -1,6 +1,4 @@
 class Supporter:
-    __slots__ = "_ticker", "_history", "_df", "_strategy"
-
     def __init__(self, exchange, history_file=None):
         self._exchange = exchange
         # Specify Asset set
