@@ -6,6 +6,7 @@ from arbitrage import Arbitrage
 import multiprocessing
 from bond_buyer import BondBuyer
 from min_buyer import MinBuyer
+from trend_follower import TrendFollower
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
 team_name = "JohnStreet"
@@ -71,12 +72,23 @@ def bond_buyer_loop(exchange: Exchange, delta):
             break
 
 
+def trend_follower_loop(exchange):
+    tf = TrendFollower(exchange)
+
+    while True:
+        message = exchange.read_message()
+        tf.listen(message)
+
+        if message["type"] == "close":
+            break
+
+
 def main():
     args = parse_arguments()
 
     exchange = Exchange(args=args)
 
-    mm_thread_cnt = 15
+    mm_thread_cnt = 3
     mm_loops = []
 
     # for i in range(1, mm_thread_cnt):
@@ -94,6 +106,7 @@ def main():
         ),
     )
     min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
+    tf_loop = multiprocessing.Process(target=trend_follower_loop, args=(exchange,))
 
     # # starting process 1
     # for i in range(1, mm_thread_cnt):
@@ -102,6 +115,7 @@ def main():
     arb_loop.start()
     bond_loop.start()
     min_loop.start()
+    tf_loop.start()
 
     # wait until process 1 is finished
     # for i in range(1, mm_thread_cnt):
@@ -110,7 +124,7 @@ def main():
     arb_loop.join()
     bond_loop.join()
     min_loop.join()
-
+    tf_loop.join()
     # both processes finished
     print("Round Finished!")
 
