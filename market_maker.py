@@ -33,8 +33,8 @@ class MarketMaker:
         self._exchange.send_cancel_message(order_id=sell_id)
 
         self._exchange.send_add_message(
-            order_id=buy_id, symbol=sym, dir=Dir.BUY, price=buy_price, size=1
+            order_id=buy_id, symbol=sym, dir=Dir.BUY, price=buy_price, size=2
         )
         self._exchange.send_add_message(
-            order_id=sell_id, symbol=sym, dir=Dir.SELL, price=sell_price, size=1
+            order_id=sell_id, symbol=sym, dir=Dir.SELL, price=sell_price, size=2
         )
