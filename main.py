@@ -119,27 +119,27 @@ def main():
             1,
         ),
     )
-    # min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
+    min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
     tf_loop = multiprocessing.Process(target=trend_follower_loop, args=(exchange,))
 
     # starting process 1
     for i in range(mm_thread_cnt):
         mm_loops[i].start()
-    # ml_loop.start()
-    # arb_loop.start()
-    # sell_loop()
-    # bond_loop.start()
-    # min_loop.start()
+    ml_loop.start()
+    arb_loop.start()
+    sell_loop()
+    bond_loop.start()
+    min_loop.start()
     tf_loop.start()
 
     # wait until process 1 is finished
     for i in range(mm_thread_cnt):
         mm_loops[i].join()
-    # ml_loop.join()
-    # arb_loop.join()
-    # sell_loop()
-    # bond_loop.join()
-    # min_loop.join()
+    ml_loop.join()
+    arb_loop.join()
+    sell_loop()
+    bond_loop.join()
+    min_loop.join()
     tf_loop.join()
     # both processes finished
     print("Round Finished!")
