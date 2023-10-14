@@ -88,7 +88,7 @@ def main():
 
     exchange = Exchange(args=args)
 
-    mm_thread_cnt = 1
+    mm_thread_cnt = 5
     mm_loops = []
 
     for i in range(0, mm_thread_cnt):
