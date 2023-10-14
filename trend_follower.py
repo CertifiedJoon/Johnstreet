@@ -8,7 +8,7 @@ class Dir(str, Enum):
 
 
 class TrendFollower:
-    def __init__(self, exchange, mv_window=50):
+    def __init__(self, exchange, mv_window=100):
         self._exchange = exchange
         # base id
         self._BASE_OID = 1_000_000
