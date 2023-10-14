@@ -47,6 +47,7 @@ class Arbitrage:
                 size=1
             )
 
+        print("BUYED!!!!")
         # if self._valPrices["XLF"] - xlfStockPrices > 100:
 
         # print("TOTAL ARBITRAGE EARN:", self._totalEarn)
