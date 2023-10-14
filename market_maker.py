@@ -8,6 +8,7 @@ class MarketMaker:
         self._exchange = exchange
         self._base_id = 1_000_000
         self._delta = delta
+        self._delta = 1
         self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
         self._oid = {}
         for asset in self._assets:
