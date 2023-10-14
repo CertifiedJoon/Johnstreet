@@ -113,7 +113,7 @@ def main():
     #     target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
     sell_loop = multiprocessing.Process(
-        traget=sellall_loop, args=(exchange,))
+        target=sellall_loop, args=(exchange,))
     # bond_loop = multiprocessing.Process(
     #     target=bond_buyer_loop,
     #     args=(
@@ -130,7 +130,7 @@ def main():
     #     mm_loops[i].start()
     # ml_loop.start()
     arb_loop.start()
-    sellall_loop()
+    sell_loop()
     # bond_loop.start()
     # min_loop.start()
     tf_loop.start()
@@ -140,7 +140,7 @@ def main():
     #     mm_loops[i].join()
     # ml_loop.join()
     arb_loop.join()
-    sellall_loop()
+    sell_loop()
     # bond_loop.join()
     # min_loop.join()
     tf_loop.join()
