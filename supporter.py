@@ -4,7 +4,7 @@ class Supporter:
     def __init__(self, exchange, history_file=None):
         self._exchange = exchange
         # Specify Asset set
-        self._assets = []
+        self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
         # Should Add file location check
         self._history_file = history_file
 
