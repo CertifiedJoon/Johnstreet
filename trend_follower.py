@@ -109,6 +109,7 @@ class TrendFollower:
             self._exchange.send_add_message(
                 order_id=s_oid, symbol=sym, dir=Dir.SELL, price=s_prc, size=10
             )
+            print(order_id=s_oid, symbol=sym, dir=Dir.SELL, price=s_prc, size=10)
             return
 
         b_prc = prc
@@ -119,3 +120,4 @@ class TrendFollower:
         self._exchange.send_add_message(
             order_id=b_oid, symbol=sym, dir=Dir.BUY, price=b_prc, size=10
         )
+        print(order_id=b_oid, symbol=sym, dir=Dir.BUY, price=b_prc, size=10)
