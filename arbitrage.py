@@ -39,6 +39,8 @@ class Arbitrage:
                 order_id=convert_id, symbol="VALBZ", dir=Dir.BUY, size=1)
             self._exchange.send_add_message(
                 order_id=sell_id, symbol="VALE", dir=Dir.SELL, price=self._valPrices["VALE"], size=1)
+            print("VALE SELL",
+                  self._valPrices["VALE"] - self._valPrices["VALBZ"])
 
         if self._valPrices["VALBZ"] - self._valPrices["VALE"] > 10:
             self._exchange.send_add_message(
@@ -47,5 +49,5 @@ class Arbitrage:
                 order_id=convert_id, symbol="VALE", dir=Dir.BUY, size=1)
             self._exchange.send_add_message(
                 order_id=sell_id, symbol="VALBZ", dir=Dir.SELL, price=self._valPrices["VALBZ"], size=1)
-
-        print("Val price", self._valPrices)
+            print("VALBZ SELL",
+                  self._valPrices["VALBZ"] - self._valPrices["VALE"])
