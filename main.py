@@ -1,5 +1,6 @@
 from market_maker import MarketMaker
 from jane_street import Exchange
+from supporter import Supporter
 import multiprocessing
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
@@ -10,7 +11,7 @@ team_name = "JohnStreet"
 
 def market_maker_loop(exchange: Exchange):
     mm = MarketMaker(exchange, logging=True)
-
+    sup = Supporter(exchange, "history.csv")
     while True:
         message = exchange.read_message()
         mm.listen(message)

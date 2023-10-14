@@ -4,20 +4,17 @@ import pandas as pd
 class Supporter:
     __slots__ = "_ticker", "_history", "_df", "_strategy"
 
-    def __init__(self, ticker=None, history_file=None):
-        """
-        Initiates Trader,
-        Instanciates _strategy using parameterized factory method
-        """
-        if self.is_ticker_valid(ticker):
-            raise RuntimeError(f"{ticker} is not available.\n")
-        self._ticker = ticker
+    def __init__(self, exchange, history_file=None):
+        self._exchange = exchange
+        # base id
+        # Specify Asset set
+        self._assets = []
+
+        # one unique order id for each asset and side, e.g. 'WFC' and 'B'
+        self._oid = {}
         # Should Add file location check
         self._history_file = history_file
         self._df = pd.read_csv(history_file).set_index("Date")
-
-    def is_ticker_valid(self, ticker):
-        raise NotImplementedError("Sorry, not implemented yet!")
 
     def update_ohlcv(self):
         """Fetch Ticker from external API"""
@@ -33,15 +30,3 @@ class Supporter:
         #     fd.close()
 
         # self._df.loc[today] = pd.Series(new_row)
-
-    def get_ask_price(self):
-        """Return the current lowest ask price of _ticker"""
-        raise NotImplementedError("Sorry, not implemented yet.")
-
-    def get_bid_price(self):
-        """Return the current highest bid price of _ticker"""
-        raise NotImplementedError("Sorry, not implemented yet.")
-
-    def get_balance(self):
-        """Return balance in client's wallet"""
-        raise NotImplementedError("Sorry, not implemented yet.")
