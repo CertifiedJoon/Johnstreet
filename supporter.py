@@ -15,7 +15,7 @@ class Supporter:
         read message and record filled trade
         """
 
-        if message["type"] != "trade" and message["sym"] not in self._assets:
+        if message["type"] != "trade" and message["symbol"] not in self._assets:
             return
 
         new_row = [datetime.datetime.now(), message["price"]]
