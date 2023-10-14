@@ -53,26 +53,26 @@ def main():
     mm_thread_cnt = 15
     mm_loops = []
 
-    for i in range(1, mm_thread_cnt):
-        mm_loops.append(
-            multiprocessing.Process(
-                target=market_maker_loop, args=(exchange, i))
-        )
+    # for i in range(1, mm_thread_cnt):
+    #     mm_loops.append(
+    #         multiprocessing.Process(
+    #             target=market_maker_loop, args=(exchange, i))
+    #     )
 
-    ml_loop = multiprocessing.Process(
-        target=market_logger_loop, args=(exchange,))
+    # ml_loop = multiprocessing.Process(
+    #     target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
 
     # starting process 1
-    for i in range(1, mm_thread_cnt):
-        mm_loops[i - 1].start()
-    ml_loop.start()
+    # for i in range(1, mm_thread_cnt):
+    #     mm_loops[i - 1].start()
+    # ml_loop.start()
     arb_loop.start()
 
-    # wait until process 1 is finished
-    for i in range(1, mm_thread_cnt):
-        mm_loops[i - 1].join()
-    ml_loop.join()
+    # # wait until process 1 is finished
+    # for i in range(1, mm_thread_cnt):
+    #     mm_loops[i - 1].join()
+    # ml_loop.join()
     arb_loop.join()
 
     # both processes finished
