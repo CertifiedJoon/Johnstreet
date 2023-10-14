@@ -50,17 +50,20 @@ def main():
 
     exchange = Exchange(args=args)
 
-    mm_loop = multiprocessing.Process(target=market_maker_loop, args=(exchange,))
+    mm_1_loop = multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
+    mm_2_loop = multiprocessing.Process(target=market_maker_loop, args=(exchange, 2))
     ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
 
     # starting process 1
-    mm_loop.start()
+    mm_1_loop.start()
+    mm_2_loop.start()
     ml_loop.start()
     arb_loop.start()
 
     # wait until process 1 is finished
-    mm_loop.join()
+    mm_1_loop.join()
+    mm_2_loop.start()
     ml_loop.join()
     arb_loop.join()
 

@@ -4,10 +4,10 @@ from jane_street import Dir
 
 
 class MarketMaker:
-    def __init__(self, exchange):
+    def __init__(self, exchange, delta):
         self._exchange = exchange
         self._base_id = 1_000_000
-        self._delta = 2
+        self._delta = delta
         self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
         self._oid = {}
         for asset in self._assets:
