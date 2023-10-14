@@ -46,7 +46,7 @@ def arbitrage_loop(exchange: Exchange):
             break
 
 
-def bond_loop(exchange: Exchange, delta):
+def bond_buyer_loop(exchange: Exchange, delta):
     bb = BondBuyer(exchange, delta)
 
     while True:
@@ -74,7 +74,7 @@ def main():
     ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
     bond_loop = multiprocessing.Process(
-        target=bond_loop,
+        target=bond_buyer_loop,
         args=(
             exchange,
             1,
