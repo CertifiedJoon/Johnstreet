@@ -16,11 +16,13 @@ class MarketMaker:
             self._base_id += 2
 
     def listen(self, msg):
-        if msg["type"] != "trade" or msg["symbol"] not in self._assets:
+        if msg["type"] != "book" or msg["symbol"] not in self._assets:
             return
 
         sym = msg["symbol"]
-        prc = msg["price"]
+        prc = sum(p[0] for p in msg["buy"]) + sum(p[0] for p in msg["sell"]) // (
+            len(msg["buy"]) + len(msg["sell"])
+        )
 
         buy_price = prc - self._delta
         sell_price = prc + self._delta
