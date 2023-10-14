@@ -6,6 +6,7 @@ from jane_street import Dir
 class MinBuyer:
     def __init__(self, exchange):
         self._exchange = exchange
+        self._base_id = 1_000_000
         self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
         self._min_price = {
             "BOND": 1000000,
