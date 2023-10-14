@@ -7,7 +7,7 @@ class Arbitrage:
         self._exchange = exchange
         self._assets = ["VALE", "VALBZ"]
 
-        self._xlfs = ["XLF", "BOND", "GS", "MS", "WFC"]
+        # self._xlfs = ["XLF", "BOND", "GS", "MS", "WFC"]
 
         self._base_id = 1_000_000
         self._oid = {}
