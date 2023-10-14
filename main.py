@@ -101,46 +101,43 @@ def main():
 
     exchange = Exchange(args=args)
 
-    mm_thread_cnt = 1
+    mm_thread_cnt = 20
     mm_loops = []
 
-    # for i in range(0, mm_thread_cnt):
-    #     mm_loops.append(
-    #         multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
-    #     )
+    for i in range(0, mm_thread_cnt):
+        mm_loops.append(
+            multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
+        )
 
-    # ml_loop = multiprocessing.Process(
-    #     target=market_logger_loop, args=(exchange,))
+    ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
-    sell_loop = multiprocessing.Process(
-        target=sellall_loop, args=(exchange,))
-    # bond_loop = multiprocessing.Process(
-    #     target=bond_buyer_loop,
-    #     args=(
-    #         exchange,
-    #         1,
-    #     ),
-    # )
+    sell_loop = multiprocessing.Process(target=sellall_loop, args=(exchange,))
+    bond_loop = multiprocessing.Process(
+        target=bond_buyer_loop,
+        args=(
+            exchange,
+            1,
+        ),
+    )
     # min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
-    tf_loop = multiprocessing.Process(
-        target=trend_follower_loop, args=(exchange,))
+    tf_loop = multiprocessing.Process(target=trend_follower_loop, args=(exchange,))
 
     # starting process 1
-    # for i in range(mm_thread_cnt):
-    #     mm_loops[i].start()
+    for i in range(mm_thread_cnt):
+        mm_loops[i].start()
     # ml_loop.start()
-    arb_loop.start()
-    sell_loop()
+    # arb_loop.start()
+    # sell_loop()
     # bond_loop.start()
     # min_loop.start()
     tf_loop.start()
 
     # wait until process 1 is finished
-    # for i in range(mm_thread_cnt):
-    #     mm_loops[i].join()
+    for i in range(mm_thread_cnt):
+        mm_loops[i].join()
     # ml_loop.join()
-    arb_loop.join()
-    sell_loop()
+    # arb_loop.join()
+    # sell_loop()
     # bond_loop.join()
     # min_loop.join()
     tf_loop.join()
