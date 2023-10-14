@@ -73,18 +73,27 @@ def main():
 
     ml_loop = multiprocessing.Process(target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
+    bond_loop = multiprocessing.Process(
+        target=bond_loop,
+        args=(
+            exchange,
+            1,
+        ),
+    )
 
     # # starting process 1
     for i in range(1, mm_thread_cnt):
         mm_loops[i - 1].start()
     ml_loop.start()
     arb_loop.start()
+    bond_loop.start()
 
     # wait until process 1 is finished
     for i in range(1, mm_thread_cnt):
         mm_loops[i - 1].join()
     ml_loop.join()
     arb_loop.join()
+    bond_loop.join()
 
     # both processes finished
     print("Round Finished!")
