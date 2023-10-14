@@ -6,45 +6,35 @@ from jane_street import Dir
 class MarketMaker:
     def __init__(self, exchange):
         self._exchange = exchange
-        # base id
-        self._BASE_OID = 1_000_000
-        # order price delta
+        self._base_id = 1_000_000
         self._delta = 1
-        # Specify Asset set
         self._assets = ["BOND", "GS", "MS", "VALBZ", "VALE", "WFC", "XLF"]
-
-        # one unique order id for each asset and side, e.g. 'WFC' and 'B'
         self._oid = {}
         for asset in self._assets:
-            self._oid[asset + "B"] = self._BASE_OID + 1
-            self._oid[asset + "S"] = self._BASE_OID + 2
-            self._BASE_OID += 2
+            self._oid[asset + "B"] = self._base_id + 1
+            self._oid[asset + "S"] = self._base_id + 2
+            self._base_id += 2
 
     def listen(self, msg):
-        if msg["type"] != "trade":
-            return
-
-        if msg["symbol"] not in self._assets:
+        if msg["type"] != "trade" or msg["symbol"] not in self._assets:
             return
 
         sym = msg["symbol"]
         prc = msg["price"]
 
-        b_prc = prc - self._delta
-        s_prc = prc + self._delta
+        buy_price = prc - self._delta
+        sell_price = prc + self._delta
 
-        b_oid = self._oid[sym + "B"]
-        s_oid = self._oid[sym + "S"]
+        buy_id = self._oid[sym + "B"]
+        sell_id = self._oid[sym + "S"]
 
-        # cancel existing orders
         print(f"liquity providing at {sym} {prc}")
-        self._exchange.send_cancel_message(order_id=b_oid)
-        self._exchange.send_cancel_message(order_id=s_oid)
+        self._exchange.send_cancel_message(order_id=buy_id)
+        self._exchange.send_cancel_message(order_id=sell_id)
 
-        # add new orders
         self._exchange.send_add_message(
-            order_id=b_oid, symbol=sym, dir=Dir.BUY, price=b_prc, size=1
+            order_id=buy_id, symbol=sym, dir=Dir.BUY, price=buy_price, size=1
         )
         self._exchange.send_add_message(
-            order_id=s_oid, symbol=sym, dir=Dir.SELL, price=s_prc, size=1
+            order_id=sell_id, symbol=sym, dir=Dir.SELL, price=sell_price, size=1
         )
