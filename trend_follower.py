@@ -72,7 +72,7 @@ class TrendFollower:
             self._asset_mvavg[sym].popleft()
 
         # check if price trend is going down
-        if not self.price_trend_up(sym):
+        if self.price_trend_up(sym):
             s_prc = prc
 
             s_oid = self._oid[sym + "S"]
