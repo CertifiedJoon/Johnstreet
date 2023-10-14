@@ -63,13 +63,13 @@ def main():
 
     # starting process 1
     for i in range(1, mm_thread_cnt):
-        mm_loops[i].start()
+        mm_loops[i - 1].start()
     ml_loop.start()
     # arb_loop.start()
 
     # wait until process 1 is finished
     for i in range(1, mm_thread_cnt):
-        mm_loops[i].join()
+        mm_loops[i - 1].join()
     ml_loop.join()
     # arb_loop.join()
 
