@@ -91,42 +91,42 @@ def main():
     mm_thread_cnt = 1
     mm_loops = []
 
-    for i in range(0, mm_thread_cnt):
-        mm_loops.append(
-            multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
-        )
+    # for i in range(0, mm_thread_cnt):
+    #     mm_loops.append(
+    #         multiprocessing.Process(target=market_maker_loop, args=(exchange, 1))
+    #     )
 
-    ml_loop = multiprocessing.Process(
-        target=market_logger_loop, args=(exchange,))
+    # ml_loop = multiprocessing.Process(
+    #     target=market_logger_loop, args=(exchange,))
     arb_loop = multiprocessing.Process(target=arbitrage_loop, args=(exchange,))
-    bond_loop = multiprocessing.Process(
-        target=bond_buyer_loop,
-        args=(
-            exchange,
-            1,
-        ),
-    )
-    min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
-    tf_loop = multiprocessing.Process(
-        target=trend_follower_loop, args=(exchange,))
+    # bond_loop = multiprocessing.Process(
+    #     target=bond_buyer_loop,
+    #     args=(
+    #         exchange,
+    #         1,
+    #     ),
+    # )
+    # min_loop = multiprocessing.Process(target=min_buyer_loop, args=(exchange,))
+    # tf_loop = multiprocessing.Process(
+    #     target=trend_follower_loop, args=(exchange,))
 
     # starting process 1
-    for i in range(mm_thread_cnt):
-        mm_loops[i].start()
-    ml_loop.start()
+    # for i in range(mm_thread_cnt):
+    #     mm_loops[i].start()
+    # ml_loop.start()
     arb_loop.start()
-    bond_loop.start()
-    min_loop.start()
-    tf_loop.start()
+    # bond_loop.start()
+    # min_loop.start()
+    # tf_loop.start()
 
     # wait until process 1 is finished
-    for i in range(mm_thread_cnt):
-        mm_loops[i].join()
-    ml_loop.join()
+    # for i in range(mm_thread_cnt):
+    #     mm_loops[i].join()
+    # ml_loop.join()
     arb_loop.join()
-    bond_loop.join()
-    min_loop.join()
-    tf_loop.join()
+    # bond_loop.join()
+    # min_loop.join()
+    # tf_loop.join()
     # both processes finished
     print("Round Finished!")
 
